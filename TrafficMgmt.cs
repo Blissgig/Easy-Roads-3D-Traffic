@@ -75,12 +75,8 @@ public class TrafficMgmt : MonoBehaviour {
                         }
                     }
 
-                    autoMgmt.enabled = true;  //Insure this is set AFTER the road and other values are set.  This value is set OFF in the prefab
-
-                    //The following two lines are used in my game to activate objects near the player.
-                    //Not necessary for this example.
-                    var activeDetails = new ActiveDetails(auto.transform, AUTO_MIN_DISTANCE, false);
-                    activeMgmt.HBCItems.Add(activeDetails);
+                    //Insure this is set AFTER the road and other values are set.  This value is set OFF in the prefab
+                    autoMgmt.enabled = true;  
                 }
             }
         }
