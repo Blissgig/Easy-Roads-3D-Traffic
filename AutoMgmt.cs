@@ -91,12 +91,6 @@ public class AutoMgmt : MonoBehaviour
             if (isSearchLightOn)
             {
                 searchLight.transform.rotation = Quaternion.Euler(maxLightRotation * Mathf.Sin(Time.time * rotationSpeed), maxLightRotation * Mathf.Sin(Time.time * rotationSpeed), 0f); //working
-                
-                //----------------------
-                //Vector3 currentRotation = searchLight.transform.localRotation.eulerAngles;
-                //currentRotation.y = Mathf.Clamp(currentRotation.y, minLightRotation, maxLightRotation);
-                //currentRotation.z = Mathf.Clamp(currentRotation.z, minLightRotation, maxLightRotation);
-                //searchLight.transform.localRotation = Quaternion.Euler(currentRotation);
             }
         }
         catch //(System.Exception ex)
@@ -189,7 +183,7 @@ public class AutoMgmt : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            Debug.Log(transform.name + " GetNextPath ex at " + ex.Message);
+            Debug.Log("GetNextPath ex: " + ex.Message);
         }
     }
     
