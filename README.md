@@ -11,4 +11,4 @@ There are two scripts:
 
 Since I am using the Center Points of the road, each auto needs to be moved to the right.  The AutoMgmt script has a minRight and maxRight values, these are used to set the auto at random points to the right when the TrafficMgmt script creates an instance of the auto.
 
-Because of this my prefab has a transform that has the AutoMgmt script and it has a child object which is the visible auto.  Make sure to set the "Hover Auto" value in the AutoMgmt script to this child object
+Because of this my prefab has a transform that has the AutoMgmt script and it has a child object which is the visible auto.  Make sure to set the "Hover Auto" value in the AutoMgmt script to this child object.  Take a peek at the image attached to this repository to see where the AutoMgmt script it to be placed. (on the parent object, not on the actual auto)
