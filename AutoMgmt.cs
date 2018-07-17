@@ -33,8 +33,15 @@ public class AutoMgmt : MonoBehaviour
 
     private void Start ()
     {
-        GetNextPath();
-	}
+        if (currentRoad == null)
+        {
+            Debug.Log("Error: AutoMgmt is set active before a ERRoad object has been added.");
+        }
+        else
+        {
+            GetNextPath();
+        }
+    }
 
     private void Update ()
     {
