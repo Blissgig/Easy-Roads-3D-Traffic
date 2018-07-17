@@ -7,7 +7,7 @@ Easy Roads 3D has a series of Vector3 points, these points are in the center of 
 
 There are two scripts: 
 * TrafficMgmt.cs - This adds traffic to the game/experience.  This script is attached, in my case to the camera, and is run only at Startup.
-* AutoMgmt.cs    - This script is attached to each automobile and it sets the current path.   At each intersection a new road is selected.
+* AutoMgmt.cs    - This script is attached to each automobile and it sets the current path.   At each intersection a new road is selected.  This script needs to be disabled until a ERRoad object is attached, see TrafficMgmt Start() function.
 
 Since I am using the Center Points of the road, each auto needs to be moved to the right.  The AutoMgmt script has a minRight and maxRight values, these are used to set the auto at random points to the right when the TrafficMgmt script creates an instance of the auto.
 
