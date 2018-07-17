@@ -37,15 +37,16 @@ public class TrafficMgmt : MonoBehaviour {
                     var autoPrefab = autos[iRandom];
                     var auto = Instantiate(autoPrefab);
                     AutoMgmt autoMgmt = auto.GetComponent<AutoMgmt>();
-                    float xPosition = UnityEngine.Random.Range(autoMgmt.minRight, autoMgmt.maxRight);
-                    float yPosition = UnityEngine.Random.Range(minHeight, maxHeight); 
-                    float zPosition = auto.transform.position.z;
+                    autoMgmt.enabled = false; //Insure this is not enabled until a ERRoad object is attached
                     autoMgmt.currentRoad = road;
                     autoMgmt.autoSpeed = random.Next(20, 40);
                     autoMgmt.rotationSpeed = random.Next(3, 4);
+                    float xPosition = UnityEngine.Random.Range(autoMgmt.minRight, autoMgmt.maxRight);
+                    float yPosition = UnityEngine.Random.Range(minHeight, maxHeight);
+                    float zPosition = auto.transform.position.z;
                     autoMgmt.hoverAuto.transform.position = new Vector3(xPosition, yPosition, zPosition);
                     auto.transform.position = new Vector3(centerPoints[1].x, centerPoints[1].y, centerPoints[1].z);
-                    
+                                        
                     
                     if (auto.GetComponent<AutoMgmt>().searchLight == null)
                     {
