@@ -20,7 +20,7 @@ public class TrafficMgmt : MonoBehaviour {
         try
         {
             int iRandom = 0;
-            ERRoadNetwork roadNetwork = new ERRoadNetwork();
+            var roadNetwork = new ERRoadNetwork();
             roads = roadNetwork.GetRoads();
             var activeMgmt = transform.GetComponent<ActiveMgmt>();
 
@@ -36,18 +36,18 @@ public class TrafficMgmt : MonoBehaviour {
                     iRandom = random.Next(0, autos.Count);
                     var autoPrefab = autos[iRandom];
                     var auto = Instantiate(autoPrefab);
-                    AutoMgmt autoMgmt = auto.GetComponent<AutoMgmt>();
-                    autoMgmt.enabled = false; //Insure this is not enabled until a ERRoad object is attached
+                    var autoMgmt = auto.GetComponent<AutoMgmt>();
+                    float yPosition = UnityEngine.Random.Range(minHeight, maxHeight);
+                    float xPosition = UnityEngine.Random.Range(autoMgmt.minRight, autoMgmt.maxRight);  
+                    
+                    autoMgmt.enabled = false;
                     autoMgmt.currentRoad = road;
                     autoMgmt.autoSpeed = random.Next(20, 40);
                     autoMgmt.rotationSpeed = random.Next(3, 4);
-                    float xPosition = UnityEngine.Random.Range(autoMgmt.minRight, autoMgmt.maxRight);
-                    float yPosition = UnityEngine.Random.Range(minHeight, maxHeight);
-                    float zPosition = auto.transform.position.z;
-                    autoMgmt.hoverAuto.transform.position = new Vector3(xPosition, yPosition, zPosition);
+                    autoMgmt.hoverAuto.transform.localPosition = new Vector3(xPosition, yPosition, 0);
                     auto.transform.position = new Vector3(centerPoints[1].x, centerPoints[1].y, centerPoints[1].z);
-                                        
                     
+
                     if (auto.GetComponent<AutoMgmt>().searchLight == null)
                     {
                         //Not all drones have search lights, best to just turn off the option once
@@ -76,8 +76,7 @@ public class TrafficMgmt : MonoBehaviour {
                         }
                     }
 
-                    //Insure this is set AFTER the road and other values are set.  This value is set OFF in the prefab
-                    autoMgmt.enabled = true;  
+                    autoMgmt.enabled = true;  //Insure this is set AFTER the road and other values are set.  This value is set OFF in the prefab
                 }
             }
         }
