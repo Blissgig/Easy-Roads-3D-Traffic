@@ -47,38 +47,12 @@ public class AutoMgmt : MonoBehaviour
     {
         try
         {
-            //Path
             float distance = Vector3.Distance(followPath[CurrentWayPointID], transform.position);
             transform.position = Vector3.MoveTowards(transform.position, followPath[CurrentWayPointID], Time.deltaTime * autoSpeed);  //works, no bobbing
 
             var toTarget = followPath[CurrentWayPointID] - transform.position;
             if (toTarget != Vector3.zero)  //to avoid the "Look rotation viewing vector is zero" exception
-            {
-                //Tilt the Auto if they are turning
-                var zValue = Vector3.Angle(hoverAuto.transform.forward, followPath[CurrentWayPointID] - hoverAuto.transform.position);
-                if (zValue > 3.5)
-                {
-                    Vector3 cross = Vector3.Cross(hoverAuto.transform.forward, followPath[CurrentWayPointID] - hoverAuto.transform.position);
-
-                    if (cross.x < 0)
-                    {
-                        zValue = 16;
-                    }
-                    else
-                    {
-                        zValue = -16;
-                    }
-                }
-                else
-                {
-                    zValue = 0;
-                }
-
-                //Tilt the Auto
-                var desiredRotQ = Quaternion.Euler(hoverAuto.transform.eulerAngles.x, hoverAuto.transform.eulerAngles.y, zValue);
-                hoverAuto.transform.rotation = Quaternion.Lerp(hoverAuto.transform.rotation, desiredRotQ, Time.deltaTime * rotationSpeed);
-
-                
+            {               
                 //Rotate the Base of the auto
                 var rotation = Quaternion.LookRotation(toTarget); 
                 transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
@@ -95,15 +69,14 @@ public class AutoMgmt : MonoBehaviour
             }
 
             //Spotlight
+            //Some of my assets have search lights.   Do your own thing, or just delete this.
             if (isSearchLightOn)
             {
                 searchLight.transform.rotation = Quaternion.Euler(maxLightRotation * Mathf.Sin(Time.time * rotationSpeed), maxLightRotation * Mathf.Sin(Time.time * rotationSpeed), 0f); //working
             }
         }
-        catch //(System.Exception ex)
-        {
-            //Debug.Log("shouldn't be here at " + ex.Message);
-        }
+        catch 
+        {  }
     }
 
     private void GetNextPath()
@@ -167,17 +140,22 @@ public class AutoMgmt : MonoBehaviour
                 startAtStart = false;
             }
 
-            //Reset
-            followPath.Clear();
-            CurrentWayPointID = 0;
-
             //Add a marker part way into the intersection to add as a way-point between the two roads
             //This is so the autos don't cut across the curb and/or into buildings
             if (followPath.Count > 0)
             {
-                followPath.Add(ThirdOfVectors(erConnection.gameObject.transform.position, centerPoints[0]));
+                var intersectionPoint = IntersectionVector(erConnection.gameObject.transform.position, followPath[followPath.Count - 1]);
+                followPath.Clear();
+                followPath.Add(intersectionPoint);
             }
-            
+            else
+            {
+                followPath.Clear();
+            }
+
+            //Reset
+            CurrentWayPointID = 0;
+
             //No need for ALL markers to be used, MINOR memory savings
             //For some reason the value at 0 in the ERRoad's center points is sometimes 0,0,0.  So ignoring that one.
             for (int iPath = 1; iPath < centerPoints.Count(); iPath += 4)
@@ -194,10 +172,12 @@ public class AutoMgmt : MonoBehaviour
         }
     }
     
-    private Vector3 ThirdOfVectors(Vector3 start, Vector3 end)
+    //This function is to find the center of the intersection and then make a point x% before that value.
+    //This improves the auto's turn radius so the autos don't drive over sidewalks
+    private Vector3 IntersectionVector(Vector3 start, Vector3 end)
     {
-        Vector3 oneThird = start + (end - start) * 0.3f;
+        Vector3 result = start + (end - start) * 0.15f;
 
-        return oneThird;
+        return result;
     }
 }
