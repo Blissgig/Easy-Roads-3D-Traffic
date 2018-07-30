@@ -22,8 +22,6 @@ public class TrafficMgmt : MonoBehaviour {
             int iRandom = 0;
             var roadNetwork = new ERRoadNetwork();
             roads = roadNetwork.GetRoads();
-            var activeMgmt = transform.GetComponent<ActiveMgmt>();
-
 
             for (int i = 0; i < autoCount; i++)
             {
