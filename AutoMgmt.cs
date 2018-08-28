@@ -13,22 +13,13 @@ public class AutoMgmt : MonoBehaviour
     public float minRight = 2.4f;
     public float maxRight = 6.8f;
 
-    private float reachDistance = 1.0f;
-    protected int CurrentWayPointID = 0;
-    private List<Vector3> followPath = new List<Vector3>();
+    private const float REACH_DISTANCE = 2.0f;
+    protected int currentWayPoint = 0;
+    private List<Vector3> waypoints = new List<Vector3>();
     private System.Random random = new System.Random(System.DateTime.Now.Millisecond);
     private bool startAtStart = false;
 
 
-    //Searchlight
-    public Light searchLight;
-    public bool isSearchLightOn = false;
-    //private Vector3 searchLightRotation;
-    private float maxLightRotation = 90;
-    //private float minLightRotation = 0;
-
-    //Additional Props
-    public List<GameObject> props;
     
 
     private void Start ()
@@ -47,32 +38,26 @@ public class AutoMgmt : MonoBehaviour
     {
         try
         {
-            float distance = Vector3.Distance(followPath[CurrentWayPointID], transform.position);
-            transform.position = Vector3.MoveTowards(transform.position, followPath[CurrentWayPointID], Time.deltaTime * autoSpeed);  //works, no bobbing
+            float distance = Vector3.Distance(waypoints[currentWayPoint], transform.position);
 
-            var toTarget = followPath[CurrentWayPointID] - transform.position;
+            if (distance <= REACH_DISTANCE)
+            {
+                currentWayPoint++;
+
+                if (currentWayPoint >= waypoints.Count)
+                {
+                    GetNextPath();
+                }
+            }
+
+            transform.position = Vector3.MoveTowards(transform.position, waypoints[currentWayPoint], Time.deltaTime * autoSpeed);
+
+            var toTarget = waypoints[currentWayPoint] - transform.position;
             if (toTarget != Vector3.zero)  //to avoid the "Look rotation viewing vector is zero" exception
             {               
                 //Rotate the Base of the auto
                 var rotation = Quaternion.LookRotation(toTarget); 
                 transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
-            }
-
-            if (distance <= reachDistance)
-            {
-                CurrentWayPointID++;
-            }
-
-            if (CurrentWayPointID >= followPath.Count)
-            {
-                GetNextPath();
-            }
-
-            //Spotlight
-            //Some of my assets have search lights.   Do your own thing, or just delete this.
-            if (isSearchLightOn)
-            {
-                searchLight.transform.rotation = Quaternion.Euler(maxLightRotation * Mathf.Sin(Time.time * rotationSpeed), maxLightRotation * Mathf.Sin(Time.time * rotationSpeed), 0f); //working
             }
         }
         catch 
