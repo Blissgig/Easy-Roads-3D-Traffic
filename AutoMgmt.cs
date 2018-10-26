@@ -127,15 +127,15 @@ public class AutoMgmt : MonoBehaviour
 
             //Add a marker part way into the intersection to add as a way-point between the two roads
             //This is so the autos don't cut across the curb and/or into buildings
-            if (followPath.Count > 0)
+            if (waypoints.Count > 0)
             {
-                var intersectionPoint = IntersectionVector(erConnection.gameObject.transform.position, followPath[followPath.Count - 1]);
-                followPath.Clear();
-                followPath.Add(intersectionPoint);
+                var intersectionPoint = IntersectionVector(erConnection.gameObject.transform.position, waypoints[waypoints.Count - 1]);
+                waypoints.Clear();
+                waypoints.Add(intersectionPoint);
             }
             else
             {
-                followPath.Clear();
+                waypoints.Clear();
             }
 
             //Reset
@@ -145,7 +145,7 @@ public class AutoMgmt : MonoBehaviour
             //For some reason the value at 0 in the ERRoad's center points is sometimes 0,0,0.  So ignoring that one.
             for (int iPath = 1; iPath < centerPoints.Count(); iPath += 4)
             {
-                followPath.Add(centerPoints[iPath]);
+                waypoints.Add(centerPoints[iPath]);
             }
 
             //Cleanup, just in case
