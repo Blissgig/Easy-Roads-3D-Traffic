@@ -44,36 +44,6 @@ public class TrafficMgmt : MonoBehaviour {
                     autoMgmt.rotationSpeed = random.Next(3, 4);
                     autoMgmt.hoverAuto.transform.localPosition = new Vector3(xPosition, yPosition, 0);
                     auto.transform.position = new Vector3(centerPoints[1].x, centerPoints[1].y, centerPoints[1].z);
-                    
-
-                    if (auto.GetComponent<AutoMgmt>().searchLight == null)
-                    {
-                        //Not all drones have search lights, best to just turn off the option once
-                        auto.GetComponent<AutoMgmt>().isSearchLightOn = false;
-                    }
-                    else
-                    {
-                        iRandom = random.Next(0, 10);
-                        if (iRandom > 6)
-                        {
-                            auto.GetComponent<AutoMgmt>().isSearchLightOn = true;
-                        }
-                        else
-                        {
-                            auto.GetComponent<AutoMgmt>().isSearchLightOn = false;
-                        }
-                    }
-
-                    //Optional Props
-                    foreach (GameObject prop in auto.GetComponent<AutoMgmt>().props)
-                    {
-                        iRandom = random.Next(0, 10);
-                        if (iRandom > 5)
-                        {
-                            prop.SetActive(true);
-                        }
-                    }
-
                     autoMgmt.enabled = true;  //Insure this is set AFTER the road and other values are set.  This value is set OFF in the prefab
                 }
             }
