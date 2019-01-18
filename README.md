@@ -1,4 +1,9 @@
 # Easy-Roads-3D-Traffic
+
+NOTE: January 2019.   ER3D version 3.2, currently in development as of Jan 18) will have Lanes for each road.   That will make this code obsolete.  Once I get a working beta I will be working with that code and making a new repo, if necessary.  I have seen the alpha code provided with version 3.2 and it already so much better than mine.
+
+-----------------------------
+
 Simple automated traffic using Easy Roads 3D as the path information
 
 I have been looking at multiple traffic ai assets and since my needs were simple, as well as having issues having other assets match the Easy Roads road path.
