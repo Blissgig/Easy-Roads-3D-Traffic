@@ -139,7 +139,7 @@ public class AutoMgmt : MonoBehaviour
             }
 
             //Reset
-            CurrentWayPointID = 0;
+            currentWayPoint = 0;
 
             //No need for ALL markers to be used, MINOR memory savings
             //For some reason the value at 0 in the ERRoad's center points is sometimes 0,0,0.  So ignoring that one.
